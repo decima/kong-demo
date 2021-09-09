@@ -140,11 +140,11 @@ services:
   konga:
     image: pantsel/konga
     ports:
-      - 1337:1337
+      - 1338:1338
     networks:
       - kong-net
     environment:
-      NODE_ENV: production
+      NODE_ENV: developpement
       NO_AUTH: "true"
 
 secrets:

@@ -2,7 +2,6 @@ const Encore = require('@symfony/webpack-encore');
 const PurgeCssPlugin = require('purgecss-webpack-plugin');
 const glob = require('glob-all');
 const path = require('path')
-
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
 if (!Encore.isRuntimeEnvironmentConfigured()) {
@@ -26,6 +25,7 @@ Encore
     .addEntry('app', './assets/app.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
+    //.enableStimulusBridge('./assets/controllers.json')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -33,7 +33,7 @@ Encore
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
     .enableSingleRuntimeChunk()
-
+    .enablePostCssLoader()
     /*
      * FEATURE CONFIG
      *
@@ -50,7 +50,7 @@ Encore
     .configureBabel((config) => {
         config.plugins.push('@babel/plugin-proposal-class-properties');
     })
-    .enablePostCssLoader()
+
     // enables @babel/preset-env polyfills
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
