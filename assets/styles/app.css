@@ -2,6 +2,13 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-button{
+button, .button{
     @apply bg-blue-500 text-white px-6 py-2 rounded font-medium mx-3 hover:bg-blue-600 transition duration-200;
+}
+.button-success{
+    @apply bg-green-500 hover:bg-green-600;
+
+}
+a{
+    @apply underline text-blue-500 hover:text-blue-600;
 }

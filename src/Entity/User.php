@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -41,6 +43,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $company;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $kongId;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Credentials::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $credentials;
+
+    public function __construct()
+    {
+        $this->credentials = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -139,6 +156,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCompany(string $company): self
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getKongId(): ?string
+    {
+        return $this->kongId;
+    }
+
+    public function setKongId(?string $kongId): self
+    {
+        $this->kongId = $kongId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Credentials[]
+     */
+    public function getCredentials(): Collection
+    {
+        return $this->credentials;
+    }
+
+    public function addCredential(Credentials $credential): self
+    {
+        if (!$this->credentials->contains($credential)) {
+            $this->credentials[] = $credential;
+            $credential->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCredential(Credentials $credential): self
+    {
+        if ($this->credentials->removeElement($credential)) {
+            // set the owning side to null (unless already changed)
+            if ($credential->getUser() === $this) {
+                $credential->setUser(null);
+            }
+        }
 
         return $this;
     }

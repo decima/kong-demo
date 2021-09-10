@@ -13,7 +13,7 @@
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
 </head>
-<body>
+<body class="bg-gray-50">
 
 <nav class=" flex px-5 py-4 justify-between" style="background-color: #ffccdd;">
 
@@ -26,6 +26,7 @@
     <div class="flex items-center space-x-3">
         {% if is_granted("ROLE_USER") %}
            <span class="block p-3"> {{ app.user.userIdentifier }}</span>
+            <a class="block p-3" href="{{ path('credentials') }}">Credentials</a>
             <a class="block p-3" href="{{ path('app_logout') }}">Logout</a>
 
         {% else %}
@@ -38,7 +39,33 @@
 </nav>
 
 <div class="container mx-auto">
+
+    {% for message in app.flashes('credentials') %}
+        <div class="flash-notice">
+            Here are your credentials : <span class="font-black">Note them, they wont show twice</span>
+            <code>
+            {{ message }}
+            </code>
+        </div>
+    {% endfor %}
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="text-white px-6 py-4 border-0 rounded relative mb-4 bg-blueGray-500">
+              <span class="text-xl inline-block mr-5 align-middle">
+                <i class="fas fa-bell" />
+              </span>
+                            <span class="inline-block align-middle mr-8">
+                <b class="capitalize">{{ label }}!</b> {{ messages }}
+              </span>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+
+    <div class="mt-4 p-4 rounded-l bg-white border-gray-200 border">
     {% block body %}{% endblock %}
+    </div>
 </div>
 </body>
 </html>
