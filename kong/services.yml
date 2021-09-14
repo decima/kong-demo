@@ -1,15 +1,15 @@
 version: '3.7'
 networks:
-  kong_kong-net:
+  kong-net:
     external: true
 services:
   serviceA:
     image: containous/whoami:latest
     environment:
       WHOAMI_NAME: serviceA
-    networks: ["kong_kong-net"]
+    networks: ["kong-net"]
   serviceB:
     image: containous/whoami:latest
     environment:
       WHOAMI_NAME: serviceB
-    networks: ["kong_kong-net"]
+    networks: ["kong-net"]

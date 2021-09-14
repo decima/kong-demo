@@ -30,8 +30,9 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
+            $admin = false;
             if ($userRepository->count([]) === 0) {
+                $admin=true;
                 $user->setRoles(["ROLE_ADMIN"]);
             }
             $entityManager = $this->getDoctrine()->getManager();
@@ -39,7 +40,7 @@ class RegistrationController extends AbstractController
             $user->setKongId($result["id"]);
             $entityManager->persist($user);
             $entityManager->flush();
-
+            $kong->getConsumerManager()->modifyHeaderWithCompanyName($user->getKongId(), $user->getCompany(),$admin);
 
             // do anything else you need here, like send an email
             return $this->redirectToRoute('main');

@@ -36,8 +36,9 @@ class CredentialsController extends AbstractController
                 $credentials->setName(strtoupper(md5(uniqid())));
             }
             $entityManager->persist($credentials);
-            $result = $kong->getConsumerManager()->createCredentials($credentials->getName(), $credentials->getType(), $credentials->getUser()->getKongId());
+            $result = $kong->getConsumerManager()->createCredentials($credentials->getName(), $credentials->getUser()->getKongId());
             $credentials->setKongId($result["id"]);
+            $credentials->setType($kong->securityType);
             $entityManager->flush();
             unset($result["id"]);
             $this->addFlash("credentials", json_encode($result));

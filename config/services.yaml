@@ -6,7 +6,8 @@
 parameters:
   kong_admin: "%env(KONG_ADMIN_URL)%"
   kong_public: "%env(KONG_PUBLIC_URL)%"
-
+  security_type: "%env(KONG_SECURITY_TYPE)%" # One of [key-auth, basic-auth, oauth2]
+  demo_internal_url: "%env(DEMO_INTERNAL_URL)%"
 services:
   # default configuration for services in *this* file
   _defaults:
@@ -29,3 +30,5 @@ services:
     arguments:
       $kongAdminUrl: "%kong_admin%"
       $kongPublicUrl: "%kong_public%"
+      $securityType: "%security_type%"
+      $demoInternalUrl: "%demo_internal_url%"

@@ -8,7 +8,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class AbstractManager
 {
-public function __construct(protected HttpClientInterface $client){
+public function __construct(protected HttpClientInterface $client, protected $authType){
 
 }
 }

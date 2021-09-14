@@ -14,14 +14,7 @@ class CredentialsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextareaType::class, ["required" => false,])
-            ->add('type', ChoiceType::class, [
-                "choices" => [
-                    "Api Key" => "key-auth",
-                    "Basic Auth" => "basic-auth",
-                    "Oauth 2" => "oauth2",
-                ]
-            ]);
+            ->add('name', TextareaType::class, ["required" => false,]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

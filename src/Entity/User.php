@@ -54,9 +54,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $credentials;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Usage::class, mappedBy="user")
+     */
+    private $usages;
+
     public function __construct()
     {
         $this->credentials = new ArrayCollection();
+        $this->usages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,6 +202,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($credential->getUser() === $this) {
                 $credential->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Usage[]
+     */
+    public function getUsages(): Collection
+    {
+        return $this->usages;
+    }
+
+    public function addUsage(Usage $usage): self
+    {
+        if (!$this->usages->contains($usage)) {
+            $this->usages[] = $usage;
+            $usage->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsage(Usage $usage): self
+    {
+        if ($this->usages->removeElement($usage)) {
+            // set the owning side to null (unless already changed)
+            if ($usage->getUser() === $this) {
+                $usage->setUser(null);
             }
         }
 

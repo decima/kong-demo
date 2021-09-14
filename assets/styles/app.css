@@ -10,5 +10,5 @@ button, .button{
 
 }
 a{
-    @apply underline text-blue-500 hover:text-blue-600;
+    @apply underline text-pink-500 hover:text-pink-600;
 }
