@@ -63,6 +63,11 @@ Then install the default kong config :
 ```
 docker-compose -f kong/docker-compose.yml exec demo bin/console install
 ```
+Initialize the database :
+```
+docker-compose -f kong/docker-compose.yml exec demo bin/console doctrine:schema:update -f
+```
+
 
 This install command create 2 services in kong : serviceA and serviceB which should be accessible through localhost:8000/service_a and localhost:8000/service_b
 
@@ -70,7 +75,6 @@ Run the following commands to start the frontend on dev-server :
 ```shell
 yarn dev-server
 ```
-
 
 
 once yarn is running and build is successful, you can use the project on port 8002 (http://localhost:8002).
