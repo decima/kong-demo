@@ -13,7 +13,7 @@ volumes:
 
 networks:
   kong-net:
-    external: true
+    external: false
 
 services:
   demo:

@@ -54,11 +54,11 @@ two services are existing : serviceA & serviceB. Both are containous/whoami whic
 Now that we have all started the config, we can start the symfony project. You will also need yarn in order to work with the project, but npm should be also enough.
 If you have changed something on port configurations of kong, duplicate the .env file in the project into a .env.local file and edit it, this file won't be commited.
 
-Install frontend and backend dependencies : 
+Install backend dependencies : 
 ```
-yarn
 docker-compose -f kong/docker-compose.yml exec demo composer install  
 ```
+
 Then install the default kong config : 
 ```
 docker-compose -f kong/docker-compose.yml exec demo bin/console install
@@ -69,8 +69,12 @@ docker-compose -f kong/docker-compose.yml exec demo bin/console doctrine:schema:
 ```
 
 
-This install command create 2 services in kong : serviceA and serviceB which should be accessible through localhost:8000/service_a and localhost:8000/service_b
+install command creates 2 services in kong : serviceA and serviceB which should be accessible through localhost:8000/service_a and localhost:8000/service_b
 
+Install the front dependencies:
+```shell
+yarn
+```
 Run the following commands to start the frontend on dev-server : 
 ```shell
 yarn dev-server
@@ -78,3 +82,14 @@ yarn dev-server
 
 
 once yarn is running and build is successful, you can use the project on port 8002 (http://localhost:8002).
+
+## Command tooltips
+
+Reset the stack and return to all backend dependencies installed and database initialized.
+```bash
+docker-compose -f kong/docker-compose.yml -f kong/services.yml down -v \
+    && docker-compose -f kong/docker-compose.yml -f kong/services.yml up -d --force-recreate\
+    && docker-compose -f kong/docker-compose.yml exec demo composer install\
+    && docker-compose -f kong/docker-compose.yml exec demo bin/console d:d:d --force\
+    && docker-compose -f kong/docker-compose.yml exec demo bin/console d:s:u -f
+```
